@@ -330,19 +330,6 @@ Utilizando App Router para una navegación moderna y optimizada.
 - [x] Footer informativo
 - [x] Sistema de filtrado por categorías y precios
 
-### 🔄 Próximas Funcionalidades
-
-- [ ] Carrito de compras funcional
-- [ ] Sistema de pagos integrado
-- [ ] Panel de administración para vendedores
-- [ ] Gestión completa de inventario
-- [ ] Wishlist de usuarios
-- [ ] Sistema de notificaciones
-- [ ] Chat de soporte en vivo
-- [ ] Comparador de productos
-- [ ] Historial de compras
-- [ ] Sistema de cupones y descuentos
-
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:

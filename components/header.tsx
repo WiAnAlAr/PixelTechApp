@@ -133,6 +133,11 @@ export function Header() {
                         Panel Admin
                       </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/create-product" className="w-full">
+                        Crear Producto
+                      </Link>
+                    </DropdownMenuItem>
                   </>
                 )}
                 <DropdownMenuSeparator />
