@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Star, Clock, Calendar, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { useAuth } from "@/lib/auth";
 
 // Datos mock de productos (en un caso real vendría de la API)
 const productData = [
@@ -126,33 +128,107 @@ const productData = [
   },
 ];
 
-const reviews = [
-  {
-    id: 1,
-    user: "Grace Carey",
-    rating: 5,
-    date: "9 hours ago",
-    text: "Nuestra Ryzen 7 7800X3D está funcionando muy bien hasta ahora y es muy silenciosa en juegos gaming. Su tecnología de 3D V-Cache ha sido lo que más me convence si no estás limitado por el presupuesto, tanto en AMD Ryzen 7 7800X3D como en otros de su línea como a diferencia de muchas de nuestras experiencias, tanto en Windows 11 como en Microsoft Flight Simulator, mientras aguardan a Ryzen 5800X3D más.",
-    images: [
-      "/amd-rx-9070-xt-graphics-card.jpg",
-      "/amd-rx-9070-xt-graphics-card.jpg",
-    ],
-  },
-  {
-    id: 2,
-    user: "Ramind Richards",
-    rating: 5,
-    date: "9 hours ago",
-    text: "Absolutamente excelente chip gaming fácil de configurar Es producto T-PRONTO con buen performante fácil por moderno buen para ordenador. Con mejoras del entorno recientes instalé tanto en laptop de entretenimiento de la imagen copia sale diferentes.",
-  },
-  {
-    id: 3,
-    user: "Davy King",
-    rating: 5,
-    date: "9 hours ago",
-    text: "Este AMD Ryzen 7 7800X3D realmente es lo mejor chip performance en ventajas a su calificación. Una entrega rápida de 2,5GB en lo tanto más inteligente que antes especificado en los juegos de FPS esencial, siendo mejor de Frames utilizando a una HDD3D asequible para juegos estratégicos. La temperatura está en 62 °C y el ruido con temperatura de 49. Que operación de juegos de TPS bajo optimización funcional.",
-  },
-];
+const reviewsData = {
+  "1": [
+    {
+      id: 1,
+      user: "Grace Carey",
+      rating: 5,
+      date: "9 hours ago",
+      text: "Nuestra Ryzen 7 7800X3D está funcionando muy bien hasta ahora y es muy silenciosa en juegos gaming. Su tecnología de 3D V-Cache ha sido lo que más me convence si no estás limitado por el presupuesto, tanto en AMD Ryzen 7 7800X3D como en otros de su línea como a diferencia de muchas de nuestras experiencias, tanto en Windows 11 como en Microsoft Flight Simulator, mientras aguardan a Ryzen 5800X3D más.",
+      images: [
+        "/amd-rx-9070-xt-graphics-card.jpg",
+        "/amd-rx-9070-xt-graphics-card.jpg",
+      ],
+    },
+    {
+      id: 2,
+      user: "Ramind Richards",
+      rating: 5,
+      date: "2 days ago",
+      text: "Absolutamente excelente chip gaming fácil de configurar. Es producto T-PRONTO con buen rendimiento, fácil por moderno buen para ordenador. Con mejoras del entorno recientes instalé tanto en laptop de entretenimiento.",
+    },
+    {
+      id: 3,
+      user: "Davy King",
+      rating: 4,
+      date: "1 week ago",
+      text: "Este AMD Ryzen 7 7800X3D realmente es lo mejor chip performance en ventajas a su calificación. Una entrega rápida y rendimiento excelente en juegos de FPS. La temperatura está en 62 °C y el ruido es mínimo.",
+    },
+  ],
+  "2": [
+    {
+      id: 1,
+      user: "Carlos Mendez",
+      rating: 5,
+      date: "1 day ago",
+      text: "Excelente sistema de refrigeración líquida. Las temperaturas de mi CPU bajaron significativamente y la iluminación RGB se ve increíble. Fácil instalación y muy silencioso.",
+      images: ["/masterliquid-240l-rgb-liquid-cooler.jpg"],
+    },
+    {
+      id: 2,
+      user: "Ana Rodriguez",
+      rating: 4,
+      date: "3 days ago",
+      text: "Muy buen cooler, mantiene mi Ryzen 7 a temperaturas perfectas incluso en gaming intenso. La bomba es silenciosa y los RGB son personalizables.",
+    },
+    {
+      id: 3,
+      user: "Miguel Torres",
+      rating: 5,
+      date: "1 week ago",
+      text: "Perfecto para overclocking. Mi procesador se mantiene estable a 4.8GHz sin problemas de temperatura. La calidad de construcción es excelente.",
+    },
+  ],
+  "3": [
+    {
+      id: 1,
+      user: "Sofia Martinez",
+      rating: 5,
+      date: "2 hours ago",
+      text: "Esta laptop es increíble para gaming. Corre todos mis juegos favoritos en configuraciones altas sin problemas. La pantalla de 16 pulgadas es perfecta y la RTX 3050 funciona muy bien.",
+      images: ["/acer-nitro-gaming-laptop.png"],
+    },
+    {
+      id: 2,
+      user: "Diego Vargas",
+      rating: 4,
+      date: "5 days ago",
+      text: "Muy buena relación calidad-precio. El rendimiento es excelente para trabajo y gaming. La batería dura decentemente y el diseño es atractivo.",
+    },
+    {
+      id: 3,
+      user: "Laura Jimenez",
+      rating: 5,
+      date: "2 weeks ago",
+      text: "Perfecta para estudiante de diseño gráfico. Maneja software pesado sin problemas y los juegos corren muy fluidos. Altamente recomendada.",
+    },
+  ],
+  "4": [
+    {
+      id: 1,
+      user: "Roberto Silva",
+      rating: 5,
+      date: "6 hours ago",
+      text: "Los mejores auriculares gaming que he tenido. El audio espacial es impresionante y la comodidad para sesiones largas es excepcional. La calidad de construcción es premium.",
+      images: ["/astro-a50-x-gaming-headset.webp"],
+    },
+    {
+      id: 2,
+      user: "Patricia Morales",
+      rating: 4,
+      date: "1 day ago",
+      text: "Excelente calidad de audio y micrófono. La conexión inalámbrica es estable y la batería dura muchas horas. Un poco caros pero valen la pena.",
+    },
+    {
+      id: 3,
+      user: "Fernando Lopez",
+      rating: 5,
+      date: "4 days ago",
+      text: "Increíbles para gaming competitivo. Puedo escuchar todos los detalles en FPS y la cancelación de ruido funciona perfectamente. Muy recomendados.",
+    },
+  ],
+};
 
 const relatedProducts = [
   {
@@ -184,13 +260,19 @@ const relatedProducts = [
 export default function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
+  // Unwrap the params Promise using React.use()
+  const { id } = use(params);
+
   // Encontrar el producto por ID
-  const product = productData.find((p) => p.id === params.id);
+  const product = productData.find((p) => p.id === id);
+
+  // Obtener las reseñas específicas del producto
+  const reviews = reviewsData[id as keyof typeof reviewsData] || [];
 
   // Si no se encuentra el producto, mostrar un mensaje de error
   if (!product) {
@@ -215,7 +297,11 @@ export default function ProductDetailPage({
     );
   }
 
-  const averageRating = 4.8;
+  // Calcular rating promedio basado en las reseñas del producto
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+      : 0;
   const totalReviews = reviews.length;
 
   return (
@@ -283,7 +369,9 @@ export default function ProductDetailPage({
               </h1>
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-1">
-                  <span className="text-2xl font-bold">{averageRating}</span>
+                  <span className="text-2xl font-bold">
+                    {averageRating > 0 ? averageRating.toFixed(1) : "N/A"}
+                  </span>
                   <div className="flex">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
@@ -404,49 +492,72 @@ export default function ProductDetailPage({
           </div>
 
           {/* Rating Summary */}
-          <div className="flex items-center gap-8 mb-8">
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">{averageRating}</div>
-              <div className="flex justify-center mb-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className={`w-4 h-4 ${
-                      star <= averageRating
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="text-sm text-gray-600">
-                {totalReviews} reseñas
-              </div>
-            </div>
-
-            <div className="flex-1 space-y-2">
-              {[
-                { stars: 5, count: 156, percentage: 80 },
-                { stars: 4, count: 31, percentage: 15 },
-                { stars: 3, count: 12, percentage: 3 },
-                { stars: 2, count: 4, percentage: 1 },
-                { stars: 1, count: 2, percentage: 1 },
-              ].map((rating) => (
-                <div key={rating.stars} className="flex items-center gap-2">
-                  <span className="text-sm w-16">Excelente</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-yellow-400 h-2 rounded-full"
-                      style={{ width: `${rating.percentage}%` }}
-                    />
-                  </div>
-                  <span className="text-sm text-gray-600 w-8">
-                    {rating.count}
-                  </span>
+          {totalReviews > 0 ? (
+            <div className="flex items-center gap-8 mb-8">
+              <div className="text-center">
+                <div className="text-6xl font-bold mb-2">
+                  {averageRating.toFixed(1)}
                 </div>
-              ))}
+                <div className="flex justify-center mb-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`w-4 h-4 ${
+                        star <= averageRating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="text-sm text-gray-600">
+                  {totalReviews} reseñas
+                </div>
+              </div>
+
+              <div className="flex-1 space-y-2">
+                {[5, 4, 3, 2, 1].map((starCount) => {
+                  const count = reviews.filter(
+                    (r) => r.rating === starCount
+                  ).length;
+                  const percentage =
+                    totalReviews > 0 ? (count / totalReviews) * 100 : 0;
+                  const ratingLabel =
+                    starCount === 5
+                      ? "Excelente"
+                      : starCount === 4
+                      ? "Muy bueno"
+                      : starCount === 3
+                      ? "Bueno"
+                      : starCount === 2
+                      ? "Regular"
+                      : "Malo";
+
+                  return (
+                    <div key={starCount} className="flex items-center gap-2">
+                      <span className="text-sm w-16">{ratingLabel}</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-yellow-400 h-2 rounded-full"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                      <span className="text-sm text-gray-600 w-8">{count}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-8">
+              <div className="text-gray-500 mb-2">
+                No hay reseñas disponibles
+              </div>
+              <div className="text-sm text-gray-400">
+                Sé el primero en escribir una reseña para este producto
+              </div>
+            </div>
+          )}
 
           {/* Individual Reviews */}
           <div className="space-y-6">

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { VenderButton } from "@/components/vender-button";
 
 export default function HomePage() {
   return (
@@ -33,12 +34,7 @@ export default function HomePage() {
               <Button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8">
                 Buscar
               </Button>
-              <Button
-                variant="outline"
-                className="border-cyan-500 text-cyan-500 hover:bg-cyan-50 px-8 bg-transparent"
-              >
-                Vender
-              </Button>
+              <VenderButton />
             </div>
           </div>
 
