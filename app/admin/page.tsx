@@ -83,7 +83,9 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                 <Link href={card.href}>
-                  <Button className="w-full">Acceder</Button>
+                  <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                    Acceder
+                  </Button>
                 </Link>
               </CardContent>
             </Card>

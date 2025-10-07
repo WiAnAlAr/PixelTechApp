@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -9,15 +10,15 @@ export function Footer() {
         <div className="grid md:grid-cols-5 gap-8">
           {/* Logo */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-white/20 rounded flex items-center justify-center">
-                <div className="w-6 h-6 bg-white rounded-sm" />
-              </div>
-              <div className="flex flex-col leading-tight">
-                <span className="font-bold text-lg">Pixel</span>
-                <span className="font-bold text-lg">Tech</span>
-              </div>
-            </div>
+            <Link href="/" className="flex items-center mb-4">
+              <Image
+                src="/PixelTech-Logo.png"
+                alt="PixelTech Logo"
+                width={120}
+                height={54}
+                className="h-12 w-auto brightness-0 invert"
+              />
+            </Link>
           </div>
 
           {/* Compañía */}

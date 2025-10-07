@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,13 +25,7 @@ interface ProductProperty {
 }
 
 export default function CreateProductPage() {
-  const { user } = useAuth();
   const { toast } = useToast();
-
-  // Verificar si el usuario es administrador
-  if (!user || user.role !== "admin") {
-    redirect("/auth");
-  }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -257,7 +249,7 @@ export default function CreateProductPage() {
                   variant="outline"
                   size="sm"
                   onClick={addProperty}
-                  className="text-blue-600"
+                  className="text-cyan-600 border-cyan-600 hover:bg-cyan-50"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add
@@ -303,7 +295,7 @@ export default function CreateProductPage() {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="text-blue-600"
+                  className="text-cyan-600 border-cyan-600 hover:bg-cyan-50"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add
@@ -324,7 +316,7 @@ export default function CreateProductPage() {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="text-blue-600"
+                  className="text-cyan-600 border-cyan-600 hover:bg-cyan-50"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add

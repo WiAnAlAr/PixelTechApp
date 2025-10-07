@@ -3,6 +3,8 @@
 import { useAuth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -23,5 +25,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     redirect("/auth");
   }
 
-  return <div className="min-h-screen bg-gray-50">{children}</div>;
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <main className="bg-gray-50 min-h-[calc(100vh-200px)]">{children}</main>
+      <Footer />
+    </div>
+  );
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +12,71 @@ import { Footer } from "@/components/footer";
 import { VenderButton } from "@/components/vender-button";
 
 export default function HomePage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Lista completa de productos en oferta
+  const offerProducts = [
+    {
+      id: 2,
+      name: "Masterliquid 240L Core ARGB",
+      price: "$425,000",
+      description: "Refrigeración Líquida Cooler Master",
+      image: "/masterliquid-240l-rgb-liquid-cooler.jpg",
+    },
+    {
+      id: 3,
+      name: "Portátil Gamer Acer Nitro",
+      price: "$4,430,000",
+      description:
+        'Portátil Gamer Acer Nitro Lite 16" Intel Core i7-13620H RTX 3050 8GB RAM 16GB M.2 512GB',
+      image: "/acer-nitro-gaming-laptop.png",
+    },
+    {
+      id: 4,
+      name: "Astro A50 X",
+      price: "$1,599,000",
+      description: "Diadema Gamer Inalámbrica",
+      image: "/astro-a50-x-gaming-headset.webp",
+    },
+    {
+      id: 5,
+      name: "AMD Ryzen 7 7800X3D",
+      price: "$2,850,000",
+      description: "Procesador Gaming de Alto Rendimiento con 3D V-Cache",
+      image: "/AMD-Ryzen-7-7800X3D.jpg",
+    },
+    {
+      id: 6,
+      name: "AMD RX 9070 XT",
+      price: "$3,200,000",
+      description: "Tarjeta Gráfica de Nueva Generación para Gaming 4K",
+      image: "/amd-rx-9070-xt-graphics-card.jpg",
+    },
+    {
+      id: 7,
+      name: "Intel Core Ultra 9 285",
+      price: "$2,100,000",
+      description: "Procesador de Alta Eficiencia para Profesionales",
+      image: "/Intel-Core-Ultra-9-285.jpg",
+    },
+  ];
+
+  const itemsToShow = 4;
+  const maxSlide = Math.max(0, offerProducts.length - itemsToShow);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev <= 0 ? maxSlide : prev - 1));
+  };
+
+  const visibleProducts = offerProducts.slice(
+    currentSlide,
+    currentSlide + itemsToShow
+  );
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -95,86 +163,84 @@ export default function HomePage() {
             >
               Ver mas
             </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-400 hover:text-cyan-500 hover:bg-cyan-50 transition-all duration-200 disabled:opacity-30"
+              onClick={prevSlide}
+              disabled={currentSlide === 0}
+            >
               <ChevronLeft className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-400 hover:text-cyan-500 hover:bg-cyan-50 transition-all duration-200 disabled:opacity-30"
+              onClick={nextSlide}
+              disabled={currentSlide >= maxSlide}
+            >
               <ChevronRight className="w-5 h-5" />
             </Button>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {/* Product 1 */}
-          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <Link href="/products/2">
-                <div className="aspect-square relative mb-4 bg-gray-50 rounded-lg">
-                  <img
-                    src="/masterliquid-240l-rgb-liquid-cooler.jpg"
-                    alt="Masterliquid 240L Core ARGB"
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-                <h3 className="font-semibold text-lg mb-2">
-                  Masterliquid 240L Core ARGB
-                </h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">
-                  $425,000
-                </p>
-                <p className="text-sm text-gray-600">
-                  Refrigeración Líquida Cooler Master
-                </p>
-              </Link>
-            </CardContent>
-          </Card>
+        {/* Contenedor del carrusel */}
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${currentSlide * (100 / itemsToShow)}%)`,
+              width: `${(offerProducts.length * 100) / itemsToShow}%`,
+            }}
+          >
+            {offerProducts.map((product) => (
+              <div
+                key={product.id}
+                className="flex-shrink-0 px-3"
+                style={{ width: `${100 / offerProducts.length}%` }}
+              >
+                <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 h-full">
+                  <CardContent className="p-6">
+                    <Link href={`/products/${product.id}`}>
+                      <div className="aspect-square relative mb-4 bg-gray-50 rounded-lg overflow-hidden group">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                        />
+                      </div>
+                      <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-cyan-600 transition-colors duration-200">
+                        {product.name}
+                      </h3>
+                      <p className="text-2xl font-bold text-cyan-600 mb-2">
+                        {product.price}
+                      </p>
+                      <p className="text-sm text-gray-600 line-clamp-2">
+                        {product.description}
+                      </p>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          {/* Product 2 */}
-          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <Link href="/products/3">
-                <div className="aspect-square relative mb-4 bg-gray-50 rounded-lg">
-                  <img
-                    src="/acer-nitro-gaming-laptop.png"
-                    alt="Portátil Gamer Acer Nitro"
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-                <h3 className="font-semibold text-lg mb-2">
-                  Portátil Gamer Acer Nitro
-                </h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">
-                  $4,430,000
-                </p>
-                <p className="text-sm text-gray-600">
-                  Portátil Gamer Acer Nitro Lite 16" Intel Core i7-13620H RTX
-                  3050 8GB RAM 16GB M.2 512GB
-                </p>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* Product 3 */}
-          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <Link href="/products/4">
-                <div className="aspect-square relative mb-4 bg-gray-50 rounded-lg">
-                  <img
-                    src="/astro-a50-x-gaming-headset.webp"
-                    alt="Astro A50 X"
-                    className="w-full h-full object-contain p-4"
-                  />
-                </div>
-                <h3 className="font-semibold text-lg mb-2">Astro A50 X</h3>
-                <p className="text-2xl font-bold text-gray-900 mb-2">
-                  $1,599,000
-                </p>
-                <p className="text-sm text-gray-600">
-                  Diadema Gamer Inalámbrica
-                </p>
-              </Link>
-            </CardContent>
-          </Card>
+        {/* Indicadores de posición */}
+        <div className="flex justify-center mt-6">
+          <div className="flex gap-2">
+            {Array.from({ length: maxSlide + 1 }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-110 ${
+                  index === currentSlide
+                    ? "bg-cyan-500 shadow-md"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
