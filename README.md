@@ -3,10 +3,11 @@
 ## Índice
 
 1. [Introducción](#introducción)
-2. [Navegación General](#navegación-general)
-3. [Funciones de Usuario](#funciones-de-usuario)
-4. [Funciones de Administrador](#funciones-de-administrador)
-5. [Configuración y Personalización](#configuración-y-personalización)
+2. [Instalación y Ejecución](#instalación-y-ejecución)
+3. [Navegación General](#navegación-general)
+4. [Funciones de Usuario](#funciones-de-usuario)
+5. [Funciones de Administrador](#funciones-de-administrador)
+6. [Configuración y Personalización](#configuración-y-personalización)
 
 ---
 
@@ -21,6 +22,86 @@
 - Panel administrativo para gestión de productos
 - Búsqueda avanzada y filtros
 - Diseño responsive y moderno
+
+---
+
+## Instalación y Ejecución
+
+### Prerrequisitos
+
+Antes de ejecutar la aplicación, asegúrate de tener instalado:
+
+- **Node.js** (versión 18 o superior)
+- **pnpm** (gestor de paquetes recomendado)
+- **Git** para clonar el repositorio
+
+### Pasos para la instalación
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone https://github.com/WiAnAlAr/PixelTechApp.git
+   cd PixelTechApp
+   ```
+
+2. **Instalar dependencias**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Ejecutar en modo desarrollo**
+
+   ```bash
+   pnpm dev
+   ```
+
+4. **Abrir en el navegador**
+
+   La aplicación estará disponible en: [http://localhost:3000](http://localhost:3000)
+
+### Comandos disponibles
+
+- `pnpm dev` - Ejecuta la aplicación en modo desarrollo
+- `pnpm build` - Construye la aplicación para producción
+- `pnpm start` - Ejecuta la aplicación en modo producción
+- `pnpm lint` - Ejecuta el linter para verificar el código
+
+### Usuarios de prueba
+
+Para probar las funcionalidades de la aplicación, utiliza las siguientes credenciales:
+
+**Usuario Normal:**
+
+- Email: `usuario@pixeltech.com`
+- Contraseña: `usuario123`
+
+**Administrador:**
+
+- Email: `admin@pixeltech.com`
+- Contraseña: `admin123`
+
+### Estructura de desarrollo
+
+```
+PixelTechApp/
+├── app/                    # Páginas y rutas de Next.js
+├── components/             # Componentes reutilizables
+├── lib/                    # Utilidades y configuraciones
+├── public/                 # Archivos estáticos
+├── styles/                 # Estilos globales
+├── package.json            # Dependencias y scripts
+└── README.md              # Este archivo
+```
+
+### Tecnologías utilizadas
+
+- **Next.js 15.2.4** - Framework React para aplicaciones web
+- **TypeScript** - Superset tipado de JavaScript
+- **Tailwind CSS** - Framework de CSS utilitario
+- **Radix UI** - Componentes UI accesibles y personalizables
+- **Lucide React** - Biblioteca de iconos
+- **React Hook Form** - Manejo de formularios
 
 ---
 
@@ -1332,7 +1413,6 @@ const StatsDashboard = () => {
 - **Estilos**: Tailwind CSS + Radix UI
 - **Iconos**: Lucide React
 - **Tipografía**: Geist Sans/Mono
-- **Analytics**: Vercel Analytics integrado
 - **Responsive**: Diseño mobile-first
 
 ### Estructura de Archivos Clave
