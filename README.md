@@ -467,19 +467,6 @@ Utilizando App Router para una navegación moderna y optimizada.
 - [x] **Esquema de colores unificado** en cyan para toda la aplicación
 - [x] **Estados de carga y feedback visual** en todas las interacciones
 
-### 🔄 Próximas Funcionalidades
-
-- [ ] Gestión completa de productos existentes (editar/eliminar)
-- [ ] Sistema de carrito de compras y checkout
-- [ ] Procesamiento de pagos integrado
-- [ ] Gestión de pedidos y tracking
-- [ ] Sistema de notificaciones en tiempo real
-- [ ] Panel de reportes y analytics avanzado
-- [ ] Gestión de usuarios desde el panel admin
-- [ ] Sistema de cupones y descuentos
-- [ ] Integración con APIs de inventario
-- [ ] Optimización SEO y metadata dinámico
-
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
