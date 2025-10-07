@@ -3,130 +3,13 @@
 import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Star, Clock, Calendar, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { useAuth } from "@/lib/auth";
-
-// Datos mock de productos (en un caso real vendría de la API)
-const productData = [
-  {
-    id: "1",
-    name: "AMD Ryzen 7 7800X3D",
-    price: 1399,
-    originalPrice: 1549,
-    category: "Procesadores",
-    images: [
-      "/amd-rx-9070-xt-graphics-card.jpg",
-      "/amd-rx-9070-xt-graphics-card.jpg",
-      "/amd-rx-9070-xt-graphics-card.jpg",
-    ],
-    description:
-      "Experiencia de juego de primera línea con la tecnología de memoria de los procesadores de alta calidad de ASUS Dual que potencian las mejores del mercado. Obtén aún más rendimiento con este procesador de vanguardia que acelera cada proyecto desde...",
-    specs: {
-      model: "Ryzen 7 7800X3D",
-      series: "Ryzen 7000 Series",
-      generation: "Computadoras de escritorio, Procesadores de alta",
-      segment: "Enthusiast Desktop",
-      productSupport: "No",
-      productId: "NM-100000XXMHX",
-      productIdentification: "YD7800X3XXAFLH",
-    },
-    features: {
-      delivery: { icon: "🚚", text: "Envío Gratis", detail: "En más de" },
-      warranty: { icon: "📅", text: "1 año", detail: "Garantía" },
-      payment: { icon: "💳", text: "Hasta", detail: "12 cuotas" },
-    },
-  },
-  {
-    id: "2",
-    name: "Masterliquid 240L Core ARGB",
-    price: 425,
-    originalPrice: 500,
-    category: "Refrigeración",
-    images: [
-      "/masterliquid-240l-rgb-liquid-cooler.jpg",
-      "/masterliquid-240l-rgb-liquid-cooler.jpg",
-      "/masterliquid-240l-rgb-liquid-cooler.jpg",
-    ],
-    description:
-      "Sistema de refrigeración líquida de alto rendimiento con iluminación RGB personalizable. Ideal para mantener temperaturas óptimas en procesadores de alta gama durante sesiones intensas de gaming y trabajo profesional.",
-    specs: {
-      model: "240L Core ARGB",
-      series: "MasterLiquid",
-      generation: "Refrigeración líquida, Coolers de alta gama",
-      segment: "Gaming Desktop",
-      productSupport: "Sí",
-      productId: "ML-240L-ARGB",
-      productIdentification: "CL240ARGB001",
-    },
-    features: {
-      delivery: { icon: "🚚", text: "Envío Gratis", detail: "En más de" },
-      warranty: { icon: "📅", text: "2 años", detail: "Garantía" },
-      payment: { icon: "💳", text: "Hasta", detail: "12 cuotas" },
-    },
-  },
-  {
-    id: "3",
-    name: "Portátil Gamer Acer Nitro",
-    price: 4430,
-    originalPrice: 4800,
-    category: "Laptops",
-    images: [
-      "/acer-nitro-gaming-laptop.png",
-      "/acer-nitro-gaming-laptop.png",
-      "/acer-nitro-gaming-laptop.png",
-    ],
-    description:
-      "Laptop gaming de alto rendimiento con Intel Core i7 y RTX 3050. Perfecta para gaming y trabajo profesional con pantalla de 16 pulgadas y almacenamiento M.2 ultra rápido.",
-    specs: {
-      model: "Nitro Lite 16",
-      series: "Acer Nitro",
-      generation: "Laptops gaming, Portátiles de alta gama",
-      segment: "Gaming Mobile",
-      productSupport: "Sí",
-      productId: "AC-NITRO-16-I7",
-      productIdentification: "ACNITRO16RTX3050",
-    },
-    features: {
-      delivery: { icon: "🚚", text: "Envío Gratis", detail: "En más de" },
-      warranty: { icon: "📅", text: "1 año", detail: "Garantía" },
-      payment: { icon: "💳", text: "Hasta", detail: "18 cuotas" },
-    },
-  },
-  {
-    id: "4",
-    name: "Astro A50 X Gaming Headset",
-    price: 1599,
-    originalPrice: 1800,
-    category: "Audio",
-    images: [
-      "/astro-a50-x-gaming-headset.webp",
-      "/astro-a50-x-gaming-headset.webp",
-      "/astro-a50-x-gaming-headset.webp",
-    ],
-    description:
-      "Diadema gaming inalámbrica premium con audio espacial y cancelación de ruido. Compatible con PC, PlayStation y Xbox para una experiencia de audio inmersiva.",
-    specs: {
-      model: "A50 X",
-      series: "Astro Gaming",
-      generation: "Audio gaming, Headsets inalámbricos",
-      segment: "Premium Audio",
-      productSupport: "Sí",
-      productId: "AST-A50X-WL",
-      productIdentification: "ASTROA50XGAMING",
-    },
-    features: {
-      delivery: { icon: "🚚", text: "Envío Gratis", detail: "En más de" },
-      warranty: { icon: "📅", text: "1 año", detail: "Garantía" },
-      payment: { icon: "💳", text: "Hasta", detail: "12 cuotas" },
-    },
-  },
-];
+import { productData } from "@/lib/product-data";
 
 const reviewsData = {
   "1": [

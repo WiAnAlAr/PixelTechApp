@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, ChevronDown, LogOut } from "lucide-react";
@@ -16,6 +18,23 @@ import { useAuth } from "@/lib/auth";
 
 export function Header() {
   const { user, logout } = useAuth();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/explorar?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push("/explorar");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch(e);
+    }
+  };
 
   return (
     <header className="border-b border-gray-200">
@@ -34,14 +53,17 @@ export function Header() {
 
           {/* Search Bar */}
           <div className="flex-1 max-w-md">
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="search"
-                placeholder="Buscar"
+                placeholder="Buscar productos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="pl-10 bg-gray-50 border-gray-200"
               />
-            </div>
+            </form>
           </div>
 
           {/* Navigation */}

@@ -31,9 +31,11 @@ export default function HomePage() {
               componentes de PC al instante
             </p>
             <div className="flex gap-4">
-              <Button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8">
-                Buscar
-              </Button>
+              <Link href="/explorar">
+                <Button className="bg-cyan-500 hover:bg-cyan-600 text-white px-8">
+                  Buscar
+                </Button>
+              </Link>
               <VenderButton />
             </div>
           </div>
