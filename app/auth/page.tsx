@@ -226,8 +226,8 @@ export default function AuthPage() {
               {/* Información de usuarios demo */}
               <div className="p-3 text-sm text-blue-600 bg-blue-50 border border-blue-200 rounded">
                 <p className="font-semibold mb-1">Usuarios de prueba:</p>
-                <p>👤 Usuario: usuario@pixeltech.com / usuario123</p>
-                <p>👨‍💼 Admin: admin@pixeltech.com / admin123</p>
+                <p>Usuario: usuario@pixeltech.com / usuario123</p>
+                <p>Admin: admin@pixeltech.com / admin123</p>
               </div>
 
               {/* Social Login Buttons */}
